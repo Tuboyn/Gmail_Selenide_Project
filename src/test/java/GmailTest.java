@@ -1,43 +1,39 @@
-import annotations.PropertyValue;
+import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.GmailPage;
-import utils.PropertyLoader;
+import pages.LoginGmailPage;
+import utils.MyConfig;
 
 public class GmailTest extends BaseTest {
 
-    @PropertyValue("email")
-    private String email;
-
-    @PropertyValue("password")
-    private String password;
-
-    @PropertyValue("wrongEmail")
-    private String wrongEmail;
-
-    public GmailTest() {
-        PropertyLoader.loadProperties(this);
-    }
+    private MyConfig config;
 
     @BeforeMethod
     public void setUp() {
-        start("http://gmail.com");
+        config = ConfigFactory.create(MyConfig.class);
+        start(config.url());
+
     }
 
     @Test()
     public void testSuccessesSend() {
+        new LoginGmailPage()
+                .login(config.email(), config.password());
+
         new GmailPage()
-                .login(email, password)
-                .sendMessage("Hello world!", "Demo message", email)
+                .sendMessage("Hello world!", "Demo message", config.email())
                 .checkSuccessSend();
     }
 
     @Test()
     public void testUnsuccessfullySend() {
+        new LoginGmailPage()
+                .login(config.email(), config.password());
+
         new GmailPage()
-                .login(email, password)
-                .sendMessage("Hello world!", "Demo message", wrongEmail)
+                .sendMessage("Hello world!", "Demo message", config.wrongEmail())
                 .checkUnsuccessfullySend();
     }
 

@@ -2,13 +2,10 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$x;
 
 public class GmailPage {
-    private final SelenideElement emailInout = $x("//input[@type='email']");
-    private final SelenideElement passwordInput = $x("//input[@type='password']");
-    private final SelenideElement nextButton = $x("//span[text()='Далее']/..");
     private final SelenideElement startMessageButton = $x("//div[text()='Написать']");
     private final SelenideElement whoInput = $x("//div[@aria-label='Кому']//input");
     private final SelenideElement topicInput = $x("//input[@aria-label='Тема']");
@@ -16,14 +13,6 @@ public class GmailPage {
     private final SelenideElement sendMessageButton = $x("//div[text()='Отправить']");
     private final SelenideElement successMessage = $x("//span[contains(text(), 'Сообщение отправлено.')]");
     private final SelenideElement errorMessage = $x("//span[text()='Ошибка']");
-
-    public GmailPage login(String email, String password) {
-        emailInout.setValue(email);
-        nextButton.click();
-        passwordInput.setValue(password);
-        nextButton.click();
-        return this;
-    }
 
     public GmailPage sendMessage(String message, String topic, String who) {
         startMessageButton.click();
@@ -35,10 +24,10 @@ public class GmailPage {
     }
 
     public void checkSuccessSend() {
-        successMessage.should(appear);
+        successMessage.shouldBe(visible);
     }
 
     public void checkUnsuccessfullySend() {
-        errorMessage.should(appear);
+        errorMessage.shouldBe(visible);
     }
 }
