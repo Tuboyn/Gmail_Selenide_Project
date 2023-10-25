@@ -8,13 +8,11 @@ import utils.MyConfig;
 
 public class GmailTest extends BaseTest {
 
-    private MyConfig config;
+    private MyConfig config = ConfigFactory.create(MyConfig.class);
 
     @BeforeMethod
     public void setUp() {
-        config = ConfigFactory.create(MyConfig.class);
         start(config.url());
-
     }
 
     @Test()
