@@ -14,7 +14,4 @@ public interface MyConfig extends Config {
 
     @Key("password")
     String password();
-
-    @Key("wrongEmail")
-    String wrongEmail();
 }
